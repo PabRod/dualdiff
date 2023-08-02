@@ -14,10 +14,20 @@ class Dual:
         """ Additional constructor
         If the input is already a dual number, just return it.
         This will be handy later. """
-        self = z
+        self.x = z.x
+        self.dx = z.dx
 
     def __str__(self):
         return "Dual({0}, {1})".format(self.x, self.dx)
 
     def __repr__(self):
         return self.__str__()
+    
+    def __eq__(self, other):
+        """ Equality operator """
+        other = Dual(other)  # Coerce into dual
+        return all([self.x == other.x, self.dx == other.dx])
+    
+    def __neq__(self, other):
+        """ Inequality operator """
+        return not self == other
