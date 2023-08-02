@@ -16,4 +16,8 @@ class Dual:
         This will be handy later. """
         self = z
 
-    
+    def __str__(self):
+        return "Dual({0}, {1})".format(self.x, self.dx)
+
+    def __repr__(self):
+        return self.__str__()
