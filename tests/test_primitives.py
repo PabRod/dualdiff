@@ -1,159 +1,83 @@
 from dualdiff.dual import Dual
 from dualdiff.primitives import *
 from dualdiff.decorators import autodifferentiable
-import numpy as np
 from pytest import approx
 
-#TODO: too much copy-pasting, build a test factory
+def _test_factory(f, df_ref, cs=np.linspace(-1, 1), use_approx=False):
+    """ Auxilary testing function
 
-def test_sin():
+    f: the function to be automatically differentiated
+    df_ref: exact derivative, calculated by hand
+    cs: points to sample and compare
+    use_approx: set to True for approximate comparisons
 
-    @autodifferentiable
-    def f(x):
-        """ Function enabled for automatic differentiation """
-        return sin(x) + sin(1)
+    The function compares f(x) and df_ref(x) at multiple points
+    """
+    # Function enabled for automatic differentiation
+    f = autodifferentiable(f)
 
     # Automatic derivative
     def df(x): return f(x).dx
 
-    # Exact derivative, calculated by hand
-    def df_ref(x): return np.cos(x)
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
+    # Compare at given points
     for c in cs:
-        assert df(c) == df_ref(c)
+        if use_approx:
+            assert df(c) == approx(df_ref(c))
+        else:
+            assert df(c) == df_ref(c)
+
+def test_sin():
+    _test_factory(lambda x: sin(x) + sin(1),
+                  lambda x: cos(x))
 
 
 def test_cos():
-
-    @autodifferentiable
-    def f(x):
-        """ Function enabled for automatic differentiation """
-        return cos(x) - cos(np.pi)
-
-    # Automatic derivative
-    def df(x): return f(x).dx
-
-    # Exact derivative, calculated by hand
-    def df_ref(x): return -sin(x)
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == df_ref(c)
+    _test_factory(lambda x: cos(x) - cos(np.pi),
+                  lambda x: -sin(x))
 
 
 def test_composition():
-
-    @autodifferentiable
-    def f(x):
-        """ Function enabled for automatic differentiation """
-        return cos(sin(x**2))
-
-    # Automatic derivative
-    def df(x): return f(x).dx
-
-    # Exact derivative, calculated by hand
-    def df_ref(x): return -sin(sin(x**2)) * cos(x**2) * 2 * x
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == approx(df_ref(c))
+    _test_factory(lambda x: cos(sin(x**2)),
+                  lambda x: -sin(sin(x**2)) * cos(x**2) * 2 * x,
+                  use_approx=True)
 
 def test_tan():
-
-    @autodifferentiable
-    def f(x):
-        """ Function enabled for automatic differentiation """
-        return tan(x)
-
-    # Automatic derivative
-    def df(x): return f(x).dx
-
-    # Exact derivative, calculated by hand
-    def df_ref(x): return 1/cos(x)**2
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == approx(df_ref(c))
+    _test_factory(lambda x: tan(x),
+                  lambda x: 1/cos(x)**2,
+                  use_approx=True)
 
 
 def test_exp():
-
-    @autodifferentiable
-    def f(x):
-        """ Function enabled for automatic differentiation """
-        return exp(3*x)
-
-    # Automatic derivative
-    def df(x): return f(x).dx
-
-    # Exact derivative, calculated by hand
-    def df_ref(x): return 3*exp(3*x)
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == approx(df_ref(c))
-
+    _test_factory(lambda x: exp(3*x),
+                  lambda x: 3*exp(3*x),
+                  use_approx=True)
 
 def test_funpow():
-
-    @autodifferentiable
-    def f(x):
-        """ Function enabled for automatic differentiation """
-        return exp(x)**cos(x)
-
-    # Automatic derivative
-    def df(x): return f(x).dx
-
-    # Exact derivative, calculated by hand
-    def df_ref(x): return exp(x * cos(x)) * (cos(x) - x * sin(x))
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == approx(df_ref(c))
-
+    _test_factory(lambda x: exp(x)**cos(x),
+                  lambda x: exp(x * cos(x)) * (cos(x) - x * sin(x)),
+                  use_approx=True)
 
 def test_verbose():
 
-    @autodifferentiable
     def f(x):
-        """ Function enabled for automatic differentiation """
+        """ Just a code-intense way of expressing a polynomial of 3rd degree"""
         v = 0
         for n in [0, 1, 2, 3]:
             v += x ** n
 
         return v
-
-    # Automatic derivative
-    def df(x): return f(x).dx
-
-    # Exact derivative, calculated by hand
-    def df_ref(x): return 3 * x**2 + 2 * x + 1
-
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == approx(df_ref(c))
-
+    
+    _test_factory(f,
+                  lambda x: 3 * x**2 + 2 * x + 1,
+                  use_approx=True)
 
 def test_piecewise():
 
-    @autodifferentiable
     def f(x):
-        """ Function enabled for automatic differentiation """
         if x < 0:
             return x ** 2
         else:
             return x ** 3
-
-    # Automatic derivative
-    def df(x): return f(x).dx
 
     # Exact derivative, calculated by hand
     def df_ref(x): 
@@ -162,7 +86,6 @@ def test_piecewise():
         else:
             return 3 * x ** 2
 
-    # Compare at some points
-    cs = np.linspace(-1, 1)
-    for c in cs:
-        assert df(c) == approx(df_ref(c))
+    _test_factory(f,
+                  df_ref,
+                  use_approx=True)
