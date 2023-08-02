@@ -4,6 +4,7 @@ from dualdiff.decorators import autodifferentiable
 import numpy as np
 from pytest import approx
 
+#TODO: too much copy-pasting, build a test factory
 
 def test_sin():
 
@@ -125,7 +126,7 @@ def test_verbose():
         """ Function enabled for automatic differentiation """
         v = 0
         for n in [0, 1, 2, 3]:
-            v = v + x ** n
+            v += x ** n
 
         return v
 

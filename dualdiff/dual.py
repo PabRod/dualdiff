@@ -70,6 +70,10 @@ class Dual:
     def __radd__(self, other):
         """ Right-side addition operator """
         return self + other
+    
+    def __iadd__(self, other):
+        """ += operator """ #TODO: this seems to not be necessary
+        return self + other
 
     def __neg__(self):
         """ Negation operator """
@@ -141,3 +145,4 @@ class Dual:
         return other ** self
     
     #TODO: unify the four above
+    #TODO: check __complex__ dunder
