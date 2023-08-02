@@ -80,4 +80,11 @@ class Dual:
         """ Right-side division operator """
         return other / self
 
-
+    @dispatch
+    def __pow__(self, other : Number):
+        y = self.x ** other
+        # Apply the rule for differentiating powers
+        # Don't forget the chain rule!
+        dy = other * self.x ** (other - 1) * self.dx 
+        return Dual(y, dy)
+    

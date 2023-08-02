@@ -68,4 +68,10 @@ def test_div():
     
     assert v / u == Dual(2 / 4, 
                          (4*2 - 2)/4**2)
+    
+def test_pow():
+    u = Dual(4, 1)
+    y = Dual(64, 3*4**2)
+
+    assert u ** 3 == y
  
