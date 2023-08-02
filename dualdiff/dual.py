@@ -56,6 +56,10 @@ class Dual:
         other = Dual(other)  # Coerce into dual
         return self.x <= other.x
     
+    def __abs__(self):
+        """ Absolute value operator """
+        return abs(self.x)
+    
     def __add__(self, other):
         """ Left-side addition operator """
         other = Dual(other) # Coerce into dual

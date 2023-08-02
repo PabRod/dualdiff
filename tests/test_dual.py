@@ -80,3 +80,10 @@ def test_rpow():
     y = Dual(8, log(2) * 2 ** 3)
 
     assert 2 ** u == y
+
+def test_abs():
+    p = Dual(3, 1)
+    n = Dual(-2, 0)
+
+    assert abs(p) == 3
+    assert abs(n) == 2
