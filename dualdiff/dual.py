@@ -21,10 +21,16 @@ class Dual:
         self.dx = z.dx
 
     def __str__(self):
+        """ Pretty print object """
         return "Dual({0}, {1})".format(self.x, self.dx)
 
     def __repr__(self):
+        """ Official string representation """
         return self.__str__()
+    
+    def __float__(self):
+        """ 'Return as float' operator """
+        return float(self.x)
     
     def __eq__(self, other):
         """ Equality operator """
@@ -37,22 +43,22 @@ class Dual:
         return not self == other
     
     def __gt__(self, other):
-        """ Greater than operator """
+        """ 'Greater than' operator """
         other = Dual(other)  # Coerce into dual
         return self.x > other.x
 
     def __ge__(self, other):
-        """ Greater or equal than operator """
+        """ 'Greater or equal than' operator """
         other = Dual(other)  # Coerce into dual
         return self.x >= other.x
 
     def __lt__(self, other):
-        """ Lesser than operator """
+        """ 'Lesser than' operator """
         other = Dual(other)  # Coerce into dual
         return self.x < other.x
 
     def __le__(self, other):
-        """ Lesser or equal than operator """
+        """ 'Lesser or equal than' operator """
         other = Dual(other)  # Coerce into dual
         return self.x <= other.x
     
@@ -118,6 +124,7 @@ class Dual:
 
     @dispatch
     def __pow__(self, other : Number):
+        """ Power operator """
         y = self.x ** other
         # Apply the rule for differentiating powers
         # Don't forget the chain rule!
@@ -126,6 +133,7 @@ class Dual:
     
     @dispatch
     def __rpow__(self, other : Number):
+        """ Power operator """
         y = other ** self.x
         # Apply the rule for differentiating exponentials
         # Don't forget the chain rule!
@@ -134,6 +142,7 @@ class Dual:
     
     @dispatch
     def __pow__(self, other: "Dual"):
+        """ Power operator """
         # General derivative of f(x)^g(x)
         # Will return complex numbers for f(x) < 0
         y = self.x ** other.x
@@ -142,6 +151,7 @@ class Dual:
     
     @dispatch
     def __rpow__(self, other: "Dual"):
+        """ Power operator """
         return other ** self
     
     #TODO: unify the four above
