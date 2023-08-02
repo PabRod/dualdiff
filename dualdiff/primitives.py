@@ -44,10 +44,19 @@ def cos(x: Any):
 
 @dispatch
 def cos(z: Dual):
-    aux = _factory(np.cos,  # Function
-                   lambda x: -np.sin(x))  # Derivative
+    aux = _factory(np.cos,                  # Function
+                   lambda x: -np.sin(x))    # Derivative
     return aux(z)
 
 @dispatch
 def tan(x: Any):
     return sin(x) / cos(x) # We can build functions from their primitives
+
+# Exponential
+@dispatch
+def exp(x: Any):
+    return np.exp(x)
+
+@dispatch
+def exp(z: Dual):
+    return np.exp(1) ** z
