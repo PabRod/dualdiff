@@ -30,3 +30,15 @@ def test_sum():
 
     assert y == u + v
     assert y == v + u
+
+def test_neg():
+    u = -Dual(2, 1)
+    y = Dual(-2, -1)
+
+    assert y == u
+
+def test_pos():
+    u = +Dual(2, 1)
+    y = Dual(2, 1)
+
+    assert y == u

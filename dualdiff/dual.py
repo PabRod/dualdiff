@@ -38,3 +38,13 @@ class Dual:
         y = self.x + other.x
         dy = self.dx + other.dx
         return Dual(y, dy)
+
+    def __neg__(self):
+        """ Negation operator """
+        x = -self.x
+        dx = -self.dx
+        return Dual(x, dx)
+    
+    def __pos__(self):
+        """ Positive operator """
+        return self
