@@ -48,3 +48,13 @@ class Dual:
     def __pos__(self):
         """ Positive operator """
         return self
+    
+    def __sub__(self, other):
+        """ Left-side subtraction operator """
+        other = Dual(other)  # Coerce into dual
+        return self + (-other)
+    
+    def __rsub__(self, other):
+        """ Right-side subtraction operator """
+        return other + (-self)
+    

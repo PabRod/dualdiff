@@ -42,3 +42,10 @@ def test_pos():
     y = Dual(2, 1)
 
     assert y == u
+
+def test_sub():    
+    u = Dual(2, 1)
+    v = Dual(1, 0)
+
+    assert u - v == Dual(1, 1)
+    assert v - u == Dual(-1, -1)
