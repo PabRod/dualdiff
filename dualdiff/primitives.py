@@ -27,11 +27,11 @@ def _factory(f, df):
 
 # Trigonometric functions
 @dispatch
-def sin(x: Any):
+def sin(x: Any): # TODO: use type coercion
     return np.sin(x)
 
 @dispatch
-def sin(z: Dual):
+def sin(z: Dual): 
     aux = _factory(np.sin, # Function
                    np.cos) # Derivative
     return aux(z)
