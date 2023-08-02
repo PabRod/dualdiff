@@ -68,7 +68,7 @@ class Dual:
     
     def __rmul__(self, other):
         """ Right-side multiplication operator """
-        return other * self
+        return self * other # Identical to __mul__ due to conmutative property
     
     def __truediv__(self, other):
         """ Left-side division operator """
