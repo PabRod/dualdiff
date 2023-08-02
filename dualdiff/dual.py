@@ -103,4 +103,16 @@ class Dual:
         dy = other ** self.x * log(other) * self.dx
         return Dual(y, dy)
     
-        #TODO: consider adding a generic power between duals
+    @dispatch
+    def __pow__(self, other: "Dual"):
+        # General derivative of f(x)^g(x)
+        # Will return complex numbers for f(x) < 0
+        y = self.x ** other.x
+        dy = self.x ** other.x * log(self.x) * other.dx + other.x * self.x ** (other.x - 1) * self.dx
+        return Dual(y, dy)
+    
+    @dispatch
+    def __rpow__(self, other: "Dual"):
+        return other ** self
+    
+    #TODO: unify the four above

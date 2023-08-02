@@ -99,6 +99,25 @@ def test_exp():
         assert df(c) == approx(df_ref(c))
 
 
+def test_funpow():
+
+    @autodifferentiable
+    def f(x):
+        """ Function enabled for automatic differentiation """
+        return exp(x)**cos(x)
+
+    # Automatic derivative
+    def df(x): return f(x).dx
+
+    # Exact derivative, calculated by hand
+    def df_ref(x): return exp(x * cos(x)) * (cos(x) - x * sin(x))
+
+    # Compare at some points
+    cs = np.linspace(-1, 1)
+    for c in cs:
+        assert df(c) == approx(df_ref(c))
+
+
 def test_verbose():
 
     @autodifferentiable
