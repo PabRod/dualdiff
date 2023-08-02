@@ -41,9 +41,9 @@ class Dual:
 
     def __neg__(self):
         """ Negation operator """
-        x = -self.x
-        dx = -self.dx
-        return Dual(x, dx)
+        y = -self.x
+        dy = -self.dx
+        return Dual(y, dy)
     
     def __pos__(self):
         """ Positive operator """
@@ -58,3 +58,14 @@ class Dual:
         """ Right-side subtraction operator """
         return other + (-self)
     
+    def __mul__(self, other):
+        """ Left-side multiplication operator """
+        other = Dual(other)  # Coerce into dual
+        y = self.x * other.x
+        dy = self.dx * other.x + self.x * other.dx # Product rule for derivatives
+        return Dual(y, dy)
+    
+    def __rmul__(self, other):
+        """ Right-side multiplication operator """
+        return other * self
+

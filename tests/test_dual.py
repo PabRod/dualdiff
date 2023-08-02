@@ -49,3 +49,11 @@ def test_sub():
 
     assert u - v == Dual(1, 1)
     assert v - u == Dual(-1, -1)
+
+def test_mul():    
+    u = Dual(2, 1)
+    v = Dual(3, 0)
+    y = Dual(6, 3)
+
+    assert u * v == y
+    assert v * u == y
