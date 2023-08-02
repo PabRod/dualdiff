@@ -139,3 +139,29 @@ def test_verbose():
     cs = np.linspace(-1, 1)
     for c in cs:
         assert df(c) == approx(df_ref(c))
+
+
+def test_piecewise():
+
+    @autodifferentiable
+    def f(x):
+        """ Function enabled for automatic differentiation """
+        if x < 0:
+            return x ** 2
+        else:
+            return x ** 3
+
+    # Automatic derivative
+    def df(x): return f(x).dx
+
+    # Exact derivative, calculated by hand
+    def df_ref(x): 
+        if x < 0:
+            return 2 * x
+        else:
+            return 3 * x ** 2
+
+    # Compare at some points
+    cs = np.linspace(-1, 1)
+    for c in cs:
+        assert df(c) == approx(df_ref(c))

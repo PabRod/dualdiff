@@ -31,9 +31,30 @@ class Dual:
         other = Dual(other)  # Coerce into dual
         return all([self.x == other.x, self.dx == other.dx])
     
-    def __neq__(self, other):
+    def __ne__(self, other):
         """ Inequality operator """
+        other = Dual(other)  # Coerce into dual
         return not self == other
+    
+    def __gt__(self, other):
+        """ Greater than operator """
+        other = Dual(other)  # Coerce into dual
+        return self.x > other.x
+
+    def __ge__(self, other):
+        """ Greater or equal than operator """
+        other = Dual(other)  # Coerce into dual
+        return self.x >= other.x
+
+    def __lt__(self, other):
+        """ Lesser than operator """
+        other = Dual(other)  # Coerce into dual
+        return self.x < other.x
+
+    def __le__(self, other):
+        """ Lesser or equal than operator """
+        other = Dual(other)  # Coerce into dual
+        return self.x <= other.x
     
     def __add__(self, other):
         """ Left-side addition operator """
