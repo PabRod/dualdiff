@@ -27,7 +27,7 @@ def _factory(f, df):
 
 # Trigonometric functions
 @dispatch
-def sin(x: Any): # TODO: use type coercion
+def sin(x: Any):
     return np.sin(x)
 
 @dispatch
@@ -36,11 +36,17 @@ def sin(z: Dual):
                    np.cos) # Derivative
     return aux(z)
 
+#TODO: consider using type coercion instead of double-dispatch
+#@dispatch
+#def sin(x: Number):
+#    z = Dual(x)
+#    aux = _factory(np.sin,  # Function
+#                   np.cos)  # Derivative
+#    return aux(z)
 
 @dispatch
 def cos(x: Any):
     return np.cos(x)
-
 
 @dispatch
 def cos(z: Dual):

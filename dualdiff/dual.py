@@ -14,7 +14,9 @@ class Dual:
     def __init__(self, z: "Dual"):
         """ Additional constructor
         If the input is already a dual number, just return it.
-        This will be handy later. """
+        This will be handy later for seamlessly coercing any 
+        number into a dual 
+        """
         self.x = z.x
         self.dx = z.dx
 
@@ -34,11 +36,15 @@ class Dual:
         return not self == other
     
     def __add__(self, other):
-        """ Addition operator """
+        """ Left-side addition operator """
         other = Dual(other) # Coerce into dual
         y = self.x + other.x
         dy = self.dx + other.dx
         return Dual(y, dy)
+    
+    def __radd__(self, other):
+        """ Right-side addition operator """
+        return self + other
 
     def __neg__(self):
         """ Negation operator """
@@ -96,3 +102,5 @@ class Dual:
         # Don't forget the chain rule!
         dy = other ** self.x * log(other) * self.dx
         return Dual(y, dy)
+    
+        #TODO: consider adding a generic power between duals
