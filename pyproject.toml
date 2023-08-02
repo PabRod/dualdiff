@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 numpy = "^1.25.2"
+plum-dispatch = "^2.1.1"
 
 
 [tool.poetry.group.dev.dependencies]
