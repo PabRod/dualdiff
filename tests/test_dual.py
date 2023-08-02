@@ -1,5 +1,6 @@
 from dualdiff.dual import Dual
 from pytest import approx
+from numpy import log
 
 def test_init():
     z = Dual(2, 1)
@@ -74,4 +75,9 @@ def test_pow():
     y = Dual(64, 3*4**2)
 
     assert u ** 3 == y
- 
+
+def test_rpow():
+    u = Dual(3, 1)
+    y = Dual(8, log(2) * 2 ** 3)
+
+    assert 2 ** u == y

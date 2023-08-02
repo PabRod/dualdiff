@@ -1,5 +1,6 @@
 from plum import dispatch
 from numbers import Number
+from numpy import log
 
 class Dual:
 
@@ -88,3 +89,10 @@ class Dual:
         dy = other * self.x ** (other - 1) * self.dx 
         return Dual(y, dy)
     
+    @dispatch
+    def __rpow__(self, other : Number):
+        y = other ** self.x
+        # Apply the rule for differentiating exponentials
+        # Don't forget the chain rule!
+        dy = other ** self.x * log(other) * self.dx
+        return Dual(y, dy)
