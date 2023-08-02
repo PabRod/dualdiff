@@ -68,4 +68,16 @@ class Dual:
     def __rmul__(self, other):
         """ Right-side multiplication operator """
         return other * self
+    
+    def __truediv__(self, other):
+        """ Left-side division operator """
+        other = Dual(other)  # Coerce into dual
+        y = self.x / other.x
+        dy = (self.dx * other.x - self.x * other.dx) / other.x**2
+        return Dual(y, dy)
+    
+    def __rtruediv__(self, other):
+        """ Right-side division operator """
+        return other / self
+
 

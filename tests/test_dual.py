@@ -1,4 +1,5 @@
 from dualdiff.dual import Dual
+from pytest import approx
 
 def test_init():
     z = Dual(2, 1)
@@ -57,3 +58,14 @@ def test_mul():
 
     assert u * v == y
     assert v * u == y
+
+def test_div():
+    u = Dual(4, 1)
+    v = Dual(2, 2)
+
+    assert u / v == Dual(4 / 2, 
+                         (2*1 - 2*4)/2**2)
+    
+    assert v / u == Dual(2 / 4, 
+                         (4*2 - 2)/4**2)
+ 
