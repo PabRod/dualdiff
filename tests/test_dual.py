@@ -1,5 +1,4 @@
 from dualdiff.dual import Dual
-from pytest import approx
 from numpy import log
 
 def test_init():
