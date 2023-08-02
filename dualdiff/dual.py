@@ -31,3 +31,10 @@ class Dual:
     def __neq__(self, other):
         """ Inequality operator """
         return not self == other
+    
+    def __add__(self, other):
+        """ Addition operator """
+        other = Dual(other) # Coerce into dual
+        y = self.x + other.x
+        dy = self.dx + other.dx
+        return Dual(y, dy)
