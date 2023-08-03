@@ -15,6 +15,7 @@ plum-dispatch = "^2.1.1"
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 ipython = "^8.14.0"
+flake8 = "^6.1.0"
 
 [build-system]
 requires = ["poetry-core"]
