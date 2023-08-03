@@ -1,4 +1,6 @@
 from dualdiff.dual import Dual
+from plum import dispatch
+from typing import Any
 
 def autodifferentiable(f):
     """ Autodifferentiable decorator 
@@ -14,7 +16,12 @@ def autodifferentiable(f):
     def f(x : Number):
         ...
     """
-    def decorated(x):
+    @dispatch
+    def decorated(x: Any):
         return f(Dual(x, 1))
+    
+    @dispatch
+    def decorated(x: Dual):
+        return f(x)
     
     return decorated
